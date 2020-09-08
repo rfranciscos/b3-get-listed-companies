@@ -1,0 +1,24 @@
+{
+  "extends": "tslint-ionic-rules",
+  "rules": {
+    "no-non-null-assertion": false,
+    "ban-comma-operator": false,
+    "no-empty": [
+      true,
+      "allow-empty-catch"
+    ],
+    "no-floating-promises": true,
+    "no-import-side-effect": false,
+    "no-var-keyword": false,
+    "no-var-requires": false,
+    "prefer-conditional-expression": false,
+    "no-trailing-whitespace": [
+      true,
+      "ignore-template-string",
+      "ignore-blank-lines"
+    ],
+    "linebreak-style": false,
+    "curly": false,
+    "ordered-imports": false
+  }
+}

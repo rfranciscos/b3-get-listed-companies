@@ -1,0 +1,33 @@
+{
+  "name": "b3-get-listed-companies",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "bin": "tsc && node ./bin/cli",
+    "prepare": "tsc",
+    "lint": "tslint --project tsconfig.json -t codeframe \"src/**/*.ts\" \"test/**/*.ts\"",
+    "prebuild": "rimraf dist",
+    "build": "npm run lint && tsc",
+    "test": "jest --coverage --no-cache",
+    "test:watch": "jest --watch",
+    "commit": "npx git-cz",
+    "prepush": "node node_modules/typescript/bin/tsc",
+    "changelog": "npx conventional-changelog -i CHANGELOG.md -s -r 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rfranciscos/b3-get-listed-companies.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rfranciscos/b3-get-listed-companies/issues"
+  },
+  "homepage": "https://github.com/rfranciscos/b3-get-listed-companies#readme",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "cheerio": "^1.0.0-rc.3",
+    "puppeteer": "^5.2.1"
+  }
+}

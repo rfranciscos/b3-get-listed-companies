@@ -1,0 +1,80 @@
+#!/usr/bin/env node
+
+"use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const path = __importStar(require("path"));
+const fs = __importStar(require("fs"));
+const utils_1 = require("./utils");
+(async function (tasksPath = undefined) {
+    const command = utils_1.getCommand();
+    const isVerbose = command.flags['--verbose'];
+    if (isVerbose) {
+        console.log();
+        console.log(`Task: ${command.task}`);
+        console.log(`Args: ${command.args}`);
+        console.log(`Flags: ${command.flags}`);
+        console.log();
+    }
+    const isHelp = command.flags['--help'] || command.flags['-h'];
+    const tasksFolder = tasksPath ? tasksPath : path.resolve(process.cwd(), 'dist', 'cli', 'tasks');
+    if (!command.task) {
+        const description = 'Multipurpose command line client';
+        const usage = `npm run bin <task> <args> -- <flags>`;
+        let tasks = [];
+        if (fs.existsSync(tasksFolder)) {
+            fs.readdirSync(tasksFolder).forEach(file => {
+                const fileName = path.parse(file).name;
+                if (!fileName.endsWith('.d')) {
+                    tasks.push(path.parse(file).name);
+                }
+            });
+        }
+        const variables = {};
+        if (tasks.length === 0) {
+            variables.tasks = `No task found in ${tasksFolder}`;
+        }
+        else {
+            variables.tasks = `One of the following tasks (type "npm run bin <task> -- --help" for more info): 
+    
+    ${tasks.join(' ')}
+`;
+        }
+        const flags = {
+            '--verbose': 'Shows which task, args, and flags were used. Debug only.',
+            '--help, -h': 'Shows this help'
+        };
+        utils_1.printHelp(description, usage, variables, flags, '');
+        return;
+    }
+    const tasksPathToUse = path.resolve(tasksFolder, `${command.task}.js`);
+    if (!fs.existsSync(tasksPathToUse)) {
+        // Do something
+        console.log(`Task ${command.task} not found in ${tasksFolder}`);
+        return;
+    }
+    try {
+        const taskRequire = require(tasksPathToUse);
+        if (isHelp) {
+            const description = taskRequire.description;
+            const usage = taskRequire.usage;
+            const variables = taskRequire.variables;
+            const flags = taskRequire.flags;
+            const example = taskRequire.example;
+            utils_1.printHelp(description, usage, variables, flags, example);
+        }
+        else {
+            await taskRequire.execute(command.args, command.flags);
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+})();
+
