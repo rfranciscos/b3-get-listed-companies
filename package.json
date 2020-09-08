@@ -1,7 +1,7 @@
 {
-  "name": "b3-get-listed-companies",
+  "name": "@rfranciscos/b3-get-listed-companies",
   "version": "1.0.0",
-  "description": "",
+  "description": "scraping to get all companies listed in the B3",
   "main": "index.js",
   "scripts": {
     "bin": "tsc && node ./bin/cli",
@@ -19,7 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/rfranciscos/b3-get-listed-companies.git"
   },
-  "author": "",
+  "author": "Renan Soares",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/rfranciscos/b3-get-listed-companies/issues"
@@ -29,5 +29,9 @@
     "axios": "^0.20.0",
     "cheerio": "^1.0.0-rc.3",
     "puppeteer": "^5.2.1"
-  }
+  },
+  "bin": {
+    "b3-get-listed-companies": "utils.js"
+  },
+  "devDependencies": {}
 }
